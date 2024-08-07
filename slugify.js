@@ -39,7 +39,11 @@
         if (appendChar === replacement) appendChar = ' ';
         return result + appendChar
           // remove not allowed characters
-          .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]+/g, '')
+          // \w: A-Z, a-z, 0-9, _
+          // \u0E00-\u0E7F: Thai characters
+          // \u0400-\u04FF: Cyrillic characters (Russian)
+          // \u4E00-\u9FFF: Common Chinese characters
+          .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@\u0E00-\u0E7F\u0400-\u04FF\u4E00-\u9FFF]+/g, '')
       }, '');
 
     if (options.strict) {
